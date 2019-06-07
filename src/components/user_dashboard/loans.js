@@ -32,8 +32,6 @@ class Loans extends Component {
 
         const userloan = userLoan.data;
         let completed_loans = [];
-
-        console.log("*** completed", completed_loans)
         let pending_loan
 
         if (loans){
@@ -48,10 +46,10 @@ class Loans extends Component {
         }}
         return (
             <div style={{ textAlign: 'left' }} id='loans'>
+            <h4> Loans</h4><br />
             {(!loans || !pending_loan)  && <p id='no_loan'>You have no pending loans: </p> }
             {loans && pending_loan &&
             <div>
-                <h4> Loans</h4><br />
                 <Table striped bordered hover>
                     <thead>
                         <tr>

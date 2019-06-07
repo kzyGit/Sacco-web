@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Table, Accordion, Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { loadLoanRepayment } from '../../actions/loans_actions'
-import Repayments from '../dashboard/repayments'
+import Repayments from '../user_dashboard/repayments'
 
 
 class Loans extends Component {
@@ -48,7 +48,7 @@ class Loans extends Component {
         }}
         return (
             <div style={{ textAlign: 'left' }} id='loans'>
-            {(!loans || !pending_loan)  && <p id='no_loan'>No pending loans: </p> }
+            {(!loans || !pending_loan)  && <p>No pending loans: </p> }
             {loans && pending_loan &&
             <div>
                 <h4> Loans</h4><br />
