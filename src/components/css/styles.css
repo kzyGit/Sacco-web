@@ -1,0 +1,91 @@
+body {
+    font-family: calbri;
+}
+.home {
+    margin-top:2% !important;
+    width: 85%;
+    margin: auto;
+    height: 730px;
+    /* background-color: #eee */
+}
+
+.header {
+    width:100%;
+    margin: auto;
+    height: 15%;
+    background-color: black;
+    color: white
+}
+
+.content {
+    height: 70%;
+    width: 70%;
+    margin: auto;
+    text-align:center;
+    padding: 10%
+}
+
+.login {
+    height: 70%;
+    width: 50%;
+    margin: auto;
+    text-align:center;
+    padding: 5%
+}
+
+.dashboard {
+    height: 70%;
+    width: 70%;
+    margin: auto;
+    text-align:center;
+    padding: 2%;
+    overflow: scroll;
+}
+#col {
+    margin-top: 2%;
+    text-align: left;
+}
+
+#nav{
+    margin-top: 4%!important;
+}
+
+h4 {
+    color: maroon
+}
+
+img {
+    width: 30px;
+    height: 30px
+}
+
+#logo {
+    color: white;
+    font-size: 25px
+
+}
+
+a {
+    color:white
+}
+#dropnav {
+    background-color: white;
+    border: 0
+}
+
+#dropnav a {
+    color: #007bff;}
+
+#no_loan {
+    margin:5%
+}
+.user {
+    color: maroon
+}
+
+#repayments {
+    background-color: #eeeeee;
+    padding: 2%;
+    margin-bottom:5%;
+    border: 1px solid #ddd
+}
