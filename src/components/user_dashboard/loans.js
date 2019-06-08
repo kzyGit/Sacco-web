@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Table, Accordion, Card, Button } from 'react-bootstrap';
+import { Table, Accordion, Card, Button, ButtonToolbar, Overlay, Popover, Form, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { loadLoanRepayment } from '../../actions/loans_actions'
+import { loadLoanRepayment, updateUserLoan, deleteUserLoan } from '../../actions/loans_actions'
 import Repayments from './repayments'
 
 
@@ -9,10 +9,44 @@ class Loans extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            repayments: false
+            repayments: false,
+            show: false,
         };
     }
+    editloan = (id, amount, event) => {
+        const target = event.target
+        this.setState({
+            target,
+            show: !this.state.show,
+            id,
+            amount
+        });
+    };
+    updateloan = (id, amount, e) => {
+        e.preventDefault();
+        this.props.updateUserLoan(id, amount)
+        alert("Loan updated successfully")
+        window.location.reload();
+    };
 
+    deleteloan = (id, e) => {
+        e.preventDefault();
+        this.props.deleteUserLoan(id)
+        alert("Loan deleted successfully")
+        window.location.reload();
+    };
+
+    handleChange = prop => event => {
+        this.setState({
+            [prop]: event.target.value
+        })
+    }
+
+    handleclose = () => {
+        this.setState({
+            show: false
+        });
+    }
     showrepayments = (id, e) => {
         e.preventDefault();
         this.props.loadLoanRepayment(id);
@@ -22,100 +56,134 @@ class Loans extends Component {
     }
     close = () => {
         this.setState({
-            repayments:false
+            repayments: false
         })
     }
     render() {
-        const { userLoan, userLoanRepayment } = this.props
-        const { repayments } = this.state
-        let loans = userLoan.data.error ? false: true
+        const { userLoan, userLoanRepayment, admin } = this.props
+        const { repayments, id, amount } = this.state
+        let loans = userLoan.data.error ? false : true
 
-        const userloan = userLoan.data;
+        const loan = userLoan.data;
         let completed_loans = [];
-        let pending_loan
+        let pending_loans = []
 
-        if (loans){
-            for(const one_loan of userloan){
-            if(one_loan.status === 'pending'){
-                pending_loan = one_loan
-            } 
-            else if (one_loan.status === 'completed'){
-                completed_loans.push(one_loan)
-                
+        if (loans) {
+            for (const one_loan of loan) {
+                if (one_loan.status === 'pending') {
+                    pending_loans.push(one_loan)
+                }
+                else if (one_loan.status === 'completed') {
+                    completed_loans.push(one_loan)
+
+                }
             }
-        }}
+        }
         return (
             <div style={{ textAlign: 'left' }} id='loans'>
-            <h4> Loans</h4><br />
-            {(!loans || !pending_loan)  && <p id='no_loan'>You have no pending loans: </p> }
-            {loans && pending_loan &&
-            <div>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Status</th>
-                            <th>Amount</th>
-                            <th>Date Approved</th>
-                            <th>To repay</th>
-                            <th>Repayed</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <h4> Loans</h4><br />
+                {(!loans || !pending_loans.length) && <p id='no_loan'>No pending loans: </p>}
+                {loans && pending_loans.length > 0 &&
+                    <div>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                    <th>Date Approved</th>
+                                    <th>To repay</th>
+                                    <th>Repayed</th>
+                                    <th>Repayment</th>
+                                    {admin && <th>Edit</th>}
+                                    {admin && <th>Delete</th>}
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        <tr>
-                            <td> <a style={{color:'#007bff'}} href="\">1</a></td>
-                            <td style={{ color: 'green' }}>Active</td>
-                            <td>{pending_loan.amount}</td>
-                            <td>{pending_loan.created_at}</td>
-                            <td>{pending_loan.amount * 1.04}</td>
-                            <td>{pending_loan.amount/2}</td>
-                            <th><Button onClick={this.showrepayments.bind(this, pending_loan.user.id)}>View</Button></th>
-                        </tr>
-                    </tbody>
-                </Table><br />
-
-                </div>}
-
-                {repayments && 
-                <div>
-                    <Button style={{float:'right'}} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment}/></div>}
-
-                {loans && completed_loans.length > 0  &&
-                
-                <Accordion defaultActiveKey="0">
-                    <Card>
-                        <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                <h4> Completed Loans</h4>
-                            </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey="1">
-                            <Table striped bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Amount</th>
-                                        <th>Date Requested</th>
-                                        <th>Repayed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {completed_loans.map(loan =>(
-
-                                        <tr key={loan.id}>
-                                        <td>1</td>
+                                {pending_loans.map(loan => (
+                                    <tr key={loan.id}>
+                                        <td>{pending_loans.indexOf(loan) + 1}</td>
+                                        <td style={{ color: 'green' }}>Active</td>
                                         <td>{loan.amount}</td>
-                                        <td>{loan.created_at}</td>
+                                        <td>{new Date(loan.created_at).toLocaleString().split(',')[0]}</td>
                                         <td>{loan.amount * 1.04}</td>
-                                    </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>}
+                                        <td>{loan.amount / 2}</td>
+                                        <td><Button onClick={this.showrepayments.bind(this, loan.user.id)}>View</Button></td>
+                                        {admin && <td><Button onClick={this.editloan.bind(this, loan.id, loan.amount)}>Edit</Button></td>}
+                                        {admin && <td><Button onClick={this.deleteloan.bind(this, loan.id)}>x</Button></td>}
+                                    </tr>))}
+                            </tbody>
+                        </Table><br />
+                        <ButtonToolbar>
+
+                            <Overlay
+                                show={this.state.show}
+                                target={this.state.target}
+                                placement="bottom"
+                                container={this}
+                                containerPadding={20}
+                            >
+                                <Popover style={{ backgroundColor: '#b39b9b' }} title="Update Saving">
+                                    <Form><br />
+
+                                        <Form.Group as={Row} controlId="formPlaintextPassword">
+                                            <Form.Label column sm="4">Amount</Form.Label>
+                                            <Col sm="8">
+                                                <Form.Control placeholder="amount"
+                                                    value={amount}
+                                                    onChange={this.handleChange('amount')}
+                                                    type='text'
+                                                />
+                                            </Col>
+                                        </Form.Group><br />
+                                    </Form>
+                                    <Button onClick={this.updateloan.bind(this, id, amount)}>Update</Button>
+                                    <Button style={{ float: 'right' }} onClick={this.handleclose}>Close</Button>
+                                </Popover>
+                            </Overlay>
+                        </ButtonToolbar>
+
+                    </div>}
+
+                {repayments &&
+                    <div>
+                        <Button style={{ float: 'right' }} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment} /></div>}
+
+                {loans && completed_loans.length > 0 &&
+
+                    <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                    <h4> Completed Loans</h4>
+                                </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="1">
+                                <Table striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Amount</th>
+                                            <th>Date Requested</th>
+                                            <th>Repayed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {completed_loans.map(loan => (
+
+                                            <tr key={loan.id}>
+                                                <td>1</td>
+                                                <td>{loan.amount}</td>
+                                                <td>{new Date(loan.created_at).toLocaleString().split(',')[0]}</td>
+                                                <td>{loan.amount * 1.04}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>}
 
             </div>
         )
@@ -123,10 +191,14 @@ class Loans extends Component {
 }
 
 const mapStateToProps = state => ({
-    userLoanRepayment: state.userLoanRepayment
+    userLoanRepayment: state.userLoanRepayment,
+    userLoanUpdate: state.userLoanUpdate,
+    deleteUserLoan: state.deleteUserLoan
 })
 
 const mapDispatchToProps = dispatch => ({
-    loadLoanRepayment: (id) => dispatch(loadLoanRepayment(id))
+    loadLoanRepayment: (id) => dispatch(loadLoanRepayment(id)),
+    updateUserLoan: (id, amount) => dispatch(updateUserLoan(id, amount)),
+    deleteUserLoan: (id) => dispatch(deleteUserLoan(id)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Loans);

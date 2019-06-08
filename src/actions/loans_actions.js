@@ -10,6 +10,14 @@ export const USERS_SUCCESS = 'USERS_SUCCESS'
 export const USERS_FAIL = 'USERS_FAIL'
 export const ADD_SAVINGS_SUCCESS = 'ADD_SAVINGS_SUCCESS'
 export const ADD_SAVINGS_FAIL = 'ADD_SAVINGS_FAIL'
+export const UPDATE_USER_SAVINGS_SUCCESS = 'UPDATE_USER_SAVINGS_SUCCESS'
+export const UPDATE_USER_SAVINGS_FAIL = 'UPDATE_USER_SAVINGS_FAIL'
+export const DELETE_USER_SAVINGS_SUCCESS = 'DELETE_USER_SAVINGS_SUCCESS'
+export const DELETE_USER_SAVINGS_FAIL = 'DELETE_USER_SAVINGS_FAIL'
+export const UPDATE_USER_LOAN_SUCCESS = 'UPDATE_USER_LOAN_SUCCESS'
+export const UPDATE_USER_LOAN_FAIL = 'UPDATE_USER_LOAN_FAIL'
+export const DELETE_USER_LOAN_SUCCESS = 'DELETE_USER_LOAN_SUCCESS'
+export const DELETE_USER_LOAN_FAIL= 'DELETE_USER_LOAN_FAIL'
 
 // action creator
 export const usersSuccess = users => ({
@@ -31,6 +39,48 @@ export const addUserSavingsFail = addsavings => ({
     type: ADD_SAVINGS_FAIL,
     payload: addsavings,
 });
+
+export const updateUserSavingsSuccess = userSavingsUpdate => ({
+    type: UPDATE_USER_SAVINGS_SUCCESS,
+    payload: userSavingsUpdate,
+})
+
+export const updateUserSavingsFail = userSavingsUpdate => ({
+    type: UPDATE_USER_SAVINGS_FAIL,
+    payload: userSavingsUpdate,
+})
+
+export const deleteUserSavingSuccess = deleteUserSaving => ({
+    type: DELETE_USER_SAVINGS_SUCCESS,
+    payload: deleteUserSaving,
+})
+
+export const deleteUserSavingsFail = deleteUserSaving => ({
+    type: DELETE_USER_SAVINGS_FAIL,
+    payload: deleteUserSaving,
+})
+
+export const updateUserLoanSuccess = userLoanUpdate => ({
+    type: UPDATE_USER_LOAN_SUCCESS,
+    payload: userLoanUpdate,
+})
+
+export const updateUserLoanFail = userLoanUpdate => ({
+    type: UPDATE_USER_LOAN_FAIL,
+    payload: userLoanUpdate,
+})
+
+export const deleteUserLoanSuccess = deleteUserLoan => ({
+    type: DELETE_USER_LOAN_SUCCESS,
+    payload: deleteUserLoan,
+})
+
+export const deleteUserLoanFail = deleteUserLoan => ({
+    type: DELETE_USER_LOAN_FAIL,
+    payload: deleteUserLoan,
+})
+
+
 export const loadUsers = () =>{
     return dispatch => {
         let apiEndpoint = `users/`;
@@ -75,9 +125,9 @@ export const userSavingsFail = userSavings => ({
 });
 
 
-export const loadUserLoan = () => {
+export const loadUserLoan = (id=false) => {
     return dispatch => {
-        let apiEndpoint = 'loans/';
+        let apiEndpoint =  id? `loans/${id}/`: `loans/`;
         userService.get(apiEndpoint)
             .then((response) => {
                 dispatch(userLoanSuccess(response.data));
@@ -101,9 +151,10 @@ export const loadLoanRepayment = (id) => {
     }
 }
 
-export const loadUserSavings = () =>{
+export const loadUserSavings = (id=false) =>{
     return dispatch => {
-        let apiEndpoint = `savings/`;
+        let apiEndpoint = id? `savings/${id}/`: `savings/`;
+        console.log("*****", apiEndpoint)
         userService.get(apiEndpoint)
             .then((response) => {
                 dispatch(userSavingsSuccess(response.data));
@@ -114,15 +165,79 @@ export const loadUserSavings = () =>{
     }
 }
 
-export const addUserSavings = () =>{
+
+export const addUserSavings = (id, amount) =>{
     return dispatch => {
-        let apiEndpoint = `savings/`;
-        userService.post(apiEndpoint)
+        let apiEndpoint = `savings/${id}/`;
+        let payload = {
+            amount: amount
+        }
+        userService.auth_post(apiEndpoint, payload)
             .then((response) => {
                 dispatch(addUserSavingsSuccess(response.data));
             })
             .catch((error) => {
                 dispatch(addUserSavingsFail(error));
+            })
+    }
+}
+
+export const updateUserSavings = (id, amount) =>{
+    return dispatch => {
+        let apiEndpoint = `single_saving/${id}/`;
+        let payload = {
+            amount: amount
+        }
+        userService.put(apiEndpoint, payload)
+            .then((response) => {
+                dispatch(updateUserSavingsSuccess(response.data));
+            })
+            .catch((error) => {
+                dispatch(updateUserSavingsFail(error));
+            })
+    }
+}
+
+
+export const deleteUserSavings = (id) =>{
+    return dispatch => {
+        let apiEndpoint = `single_saving/${id}/`;
+        userService.deleteDetail(apiEndpoint)
+            .then((response) => {
+                dispatch(deleteUserSavingSuccess(response.data));
+            })
+            .catch((error) => {
+                dispatch(deleteUserSavingsFail(error));
+            })
+    }
+}
+
+export const updateUserLoan = (id, amount) =>{
+    return dispatch => {
+        let apiEndpoint = `single_loan/${id}/`;
+        let payload = {
+            amount: amount
+        }
+        userService.put(apiEndpoint, payload)
+            .then((response) => {
+                dispatch(updateUserLoanSuccess(response.data));
+            })
+            .catch((error) => {
+                dispatch(updateUserLoanFail(error));
+            })
+    }
+}
+
+
+export const deleteUserLoan = (id) =>{
+    return dispatch => {
+        let apiEndpoint = `single_loan/${id}/`;
+        userService.deleteDetail(apiEndpoint)
+            .then((response) => {
+                dispatch(deleteUserLoanSuccess(response.data));
+            })
+            .catch((error) => {
+                dispatch(deleteUserLoanFail(error));
             })
     }
 }

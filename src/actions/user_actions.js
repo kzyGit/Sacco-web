@@ -1,8 +1,6 @@
 import { userService } from '../services'
 import { history } from '../helpers'
 
-
-
 export const userActions = {
     login,
     logout

@@ -77,7 +77,8 @@ a {
     color: #007bff;}
 
 .user {
-    color: maroon
+    color: maroon;
+    background-color: #998181 ;
 }
 
 #repayments {
@@ -85,4 +86,13 @@ a {
     padding: 2%;
     margin-bottom:5%;
     border: 1px solid #ddd
+}
+#add_savings{
+    padding:3%;
+    width: 50%;
+    margin:auto
+}
+#user_link{
+    color: #094586 !important;
+    text-transform: capitalize;
 }

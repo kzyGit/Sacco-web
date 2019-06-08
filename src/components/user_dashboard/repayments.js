@@ -11,7 +11,7 @@ class Repayments extends Component {
             <div style={{ textAlign: 'left' }} id='loans'>
 
                 <div id="repayments"><h4> Repayment Details </h4><br />
-                    {!repayment && <p>You have not made any repayments yet<br /></p>}
+                    {!repayment && <p>No repayments made yet<br /></p>}
                     {repayment &&
                         <div>
                             Total Amount repaid:{userLoanRepayment.data.total_repayments}<br /><br />
@@ -31,7 +31,7 @@ class Repayments extends Component {
                                             <tr key={pay.id}>
                                                 <td>{pay.amount}</td>
                                                 <td>{pay.amount}</td>
-                                                <td>{pay.created_at}</td>
+                                                <td>{new Date(pay.created_at).toLocaleString().split(',')[0]}</td>
                                             </tr>))}
                                     </Fragment>}
                                 </tbody>

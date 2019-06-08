@@ -46,7 +46,7 @@ class AdminDashboard extends Component {
                     <ButtonGroup id='nav'>
                         <Button onClick={this.users}>Users</Button>
                         <Button onClick={this.savings}>Savings</Button>
-                        {/* <Button onClick={this.loans}>Loans</Button> */}
+                        <Button onClick={this.loans}>Loans</Button>
                     </ButtonGroup>
 
                     {this.state.view === 'users' && <Users users={users} />}
@@ -58,6 +58,7 @@ class AdminDashboard extends Component {
         )
     }
 }
+
 
 const mapStateToProps = state => ({
     userLoan: state.userLoan,
