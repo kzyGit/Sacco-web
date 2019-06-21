@@ -25,13 +25,11 @@ class Savings extends Component {
         const { savings} = this.props
         const { addsavings} = this.state
 
-        console.log("*****", savings)
-
         return (
             <div style={{ textAlign: 'left' }} id='savings'>
-                <h4> Savings <Button style={{marginLeft:'10%', backgroundColor:'grey', border:'1px solid grey'}}onClick={this.addsavings}>+ Add Savings</Button></h4><br />
+                <h4> Savings<Button style={{marginLeft:'10%', backgroundColor:'#814d4d', border:'1px solid grey'}}onClick={this.addsavings}>+ Add Savings</Button></h4><br />
                 {addsavings && <AddSavings />}
-                <b>Total Savings: </b> {savings.data.total_savings}<br /><br />
+                <b>Total Savings: </b> {savings.data.total_savings} <br /><br />
 
                 <Table striped bordered hover>
                     <thead>

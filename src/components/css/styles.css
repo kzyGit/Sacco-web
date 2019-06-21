@@ -50,6 +50,17 @@ body {
     margin-top: 4%!important;
 }
 
+#chart{
+    margin-top: 4%!important;
+}
+
+#chart button {
+    margin-bottom: 2%!important;
+    background-color: grey;
+    border: grey
+}
+
+
 h4 {
     color: maroon
 }

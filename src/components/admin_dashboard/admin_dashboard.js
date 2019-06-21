@@ -5,6 +5,7 @@ import Header from '../header'
 import Loans from './admin_loans'
 import Savings from './admin_savings'
 import Users from './users'
+import Reports from './admin_reports'
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { history } from '../../helpers';
 import { loadUserLoan, loadUserSavings, loadUsers } from '../../actions/loans_actions'
@@ -35,8 +36,13 @@ class AdminDashboard extends Component {
     loans = () => {
         this.setState({ view: 'loans' })
     }
+
+    reports = () => {
+        this.setState({ view: 'reports' })
+    }
     render() {
         const { userLoan, userSavings, users } = this.props
+        const { view } = this.state
         return (
             <div className="home">
                 <Header />
@@ -47,11 +53,13 @@ class AdminDashboard extends Component {
                         <Button onClick={this.users}>Users</Button>
                         <Button onClick={this.savings}>Savings</Button>
                         <Button onClick={this.loans}>Loans</Button>
+                        <Button onClick={this.reports}>Reports</Button>
                     </ButtonGroup>
 
-                    {this.state.view === 'users' && <Users users={users} />}
-                    {this.state.view === 'savings' && <Savings savings={userSavings} />}
-                    {this.state.view === 'loans' && <Loans userLoan={userLoan} />}
+                    {view === 'users' && <Users users={users} />}
+                    {view === 'savings' && <Savings savings={userSavings} />}
+                    {view === 'loans' && <Loans userLoan={userLoan} />}
+                    {view === 'reports' && <Reports loans={userLoan} savings={userSavings} />}
                 </div>
                 <Footer />
             </div>

@@ -4,18 +4,19 @@ import { Table } from 'react-bootstrap';
 class Repayments extends Component {
 
     render() {
-        const { userLoanRepayment } = this.props
+        const { userLoanRepayment, amount } = this.props
         const repayment_record = userLoanRepayment.data.repayment_record
         const repayment = userLoanRepayment.data.total_repayments
         return (
-            <div style={{ textAlign: 'left' }} id='loans'>
+            <div style={{ textAlign: 'left' }} >
 
                 <div id="repayments"><h4> Repayment Details </h4><br />
                     {!repayment && <p>No repayments made yet<br /></p>}
                     {repayment &&
                         <div>
-                            Total Amount repaid:{userLoanRepayment.data.total_repayments}<br /><br />
-                            Breakdown:<br /><br />
+                            Total Amount repaid: {repayment}<br /><br />
+                            Remainder: {amount - repayment}<br /><br />
+                            <b>Breakdown:</b><br /><br />
 
                             <Table striped bordered hover>
                                 <thead>

@@ -1,16 +1,34 @@
 import React, { Component } from 'react'
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
+import AddUser from './add_user'
 
 class Users extends Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            adduser: false,
+            user: false
+        };
+    }
+
+    addUser = () => {
+        this.setState({
+            adduser: !this.state.adduser
+        })
+    }
     render() {
         const { users } = this.props
+        const { adduser } = this.state
 
         return (
             <div style={{ textAlign: 'left' }} id='savings'>
-                <h4> Njokeriosacco Members</h4><br />
+                <h4> Members<Button style={{marginLeft:'10%', backgroundColor:'#814d4d', border:'1px solid grey'}}onClick={this.addUser}>+ Add User</Button></h4><br />
 
-                Total: {users.data.length}<br /><br />
+                {adduser && <AddUser />}
+
+                Total: {users.data.length}
+                <br /><br />
 
                 <Table striped bordered hover>
                     <thead>
@@ -31,7 +49,7 @@ class Users extends Component {
                                         pathname: '/dashboard',
                                         state: {
                                             id: user.id,
-                                            name: user.first_name+ " "+user.middle_name+" "+user.sur_name
+                                            name: user.first_name + " " + user.middle_name + " " + user.sur_name
                                         }
                                     }} id="user_link">{user.first_name} {user.middle_name} {user.sur_name} </Link></td>
                                 <td>{user.email}</td>

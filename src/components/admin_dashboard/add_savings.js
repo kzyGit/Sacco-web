@@ -61,7 +61,7 @@ class AddSavings extends Component {
                         <Form.Control placeholder="amount"
                             value={this.state.amount}
                             onChange={this.handleChange('amount')}
-                            type='text'
+                            type='number'
                         />
                     </Col>
                 </Form.Group>

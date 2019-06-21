@@ -29,9 +29,12 @@ function post(apiEndpoint, payload){
 
 function auth_post(apiEndpoint, payload){
     return auth_request().post(baseUrl+apiEndpoint, payload).then((response)=>{
+		console.log("********* res", response)
         return response;
     }).catch((err)=>{
-		return err
+		console.log("********* err", err)
+		// return err
+		
     })
 }
 

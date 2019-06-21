@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Accordion, Card, Button } from 'react-bootstrap';
+import { Table, Accordion, Card, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { loadLoanRepayment } from '../../actions/loans_actions'
 import Repayments from '../user_dashboard/repayments'
@@ -10,17 +10,20 @@ class Loans extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            repayments: false
+            repayments: false,
+            show: false
         };
     }
 
-    showrepayments = (id, e) => {
+    showrepayments = (id, amount, e) => {
         e.preventDefault();
         this.props.loadLoanRepayment(id);
         this.setState({
-            repayments: true
+            repayments: true,
+            amount
         })
     }
+
     close = () => {
         this.setState({
             repayments: false
@@ -28,7 +31,7 @@ class Loans extends Component {
     }
     render() {
         const { userLoan, userLoanRepayment } = this.props
-        const { repayments } = this.state
+        const { repayments, amount } = this.state
         let loans = userLoan.data.error ? false : true
 
         const all_loans = userLoan.data.data;
@@ -46,8 +49,9 @@ class Loans extends Component {
                 }
             }
         }
+
         return (
-            <div style={{ textAlign: 'left' }} id='loans'>
+            <div style={{ textAlign: 'left' }} ieditd='loans'>
                 {(!loans || !pending_loans) && <p>No pending loans: </p>}
                 {loans && pending_loans &&
                     <div>
@@ -60,9 +64,7 @@ class Loans extends Component {
                                     <th>Amount</th>
                                     <th>Date Approved</th>
                                     <th>To repay</th>
-                                    <th>Repayed</th>
-                                    <th>Details</th>
-                                    <th>Update</th>
+                                    <th>Repayment</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,9 +83,7 @@ class Loans extends Component {
                                         <td>{loan.amount}</td>
                                         <td>{new Date(loan.created_at).toLocaleString().split(',')[0]}</td>
                                         <td>{loan.amount * 1.04}</td>
-                                        <td>{loan.amount / 2}</td>
-                                        <td><Button onClick={this.showrepayments.bind(this, loan.user.id)}>View</Button></td>
-                                        <td><Button>Update</Button></td>
+                                        <td><Button onClick={this.showrepayments.bind(this, loan.user.id, loan.amount)}>View</Button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -92,8 +92,12 @@ class Loans extends Component {
                     </div>}
 
                 {repayments &&
-                    <div>
-                        <Button style={{ float: 'right' }} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment} /></div>}
+                    <Modal show={this.state.repayments} onHide={this.close} >
+                        <Repayments  userLoanRepayment={userLoanRepayment} amount={amount} />
+                        <Button variant="primary" onClick={this.close} style={{width:'20%', float:'left', margin:'0% 0% 2% 75%'}}>
+                                Close
+                      </Button>
+                    </Modal>}
 
                 {loans && completed_loans.length > 0 &&
 

@@ -18,6 +18,8 @@ export const UPDATE_USER_LOAN_SUCCESS = 'UPDATE_USER_LOAN_SUCCESS'
 export const UPDATE_USER_LOAN_FAIL = 'UPDATE_USER_LOAN_FAIL'
 export const DELETE_USER_LOAN_SUCCESS = 'DELETE_USER_LOAN_SUCCESS'
 export const DELETE_USER_LOAN_FAIL= 'DELETE_USER_LOAN_FAIL'
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS'
+export const ADD_USER_FAIL = 'ADD_USER_FAIL'
 
 // action creator
 export const usersSuccess = users => ({
@@ -78,6 +80,17 @@ export const deleteUserLoanSuccess = deleteUserLoan => ({
 export const deleteUserLoanFail = deleteUserLoan => ({
     type: DELETE_USER_LOAN_FAIL,
     payload: deleteUserLoan,
+})
+
+
+export const addNewUserSuccess = newUser => ({
+    type: ADD_USER_SUCCESS,
+    payload: newUser,
+})
+
+export const addNewUserFail = newUser => ({
+    type: ADD_USER_FAIL,
+    payload: newUser,
 })
 
 
@@ -238,6 +251,21 @@ export const deleteUserLoan = (id) =>{
             })
             .catch((error) => {
                 dispatch(deleteUserLoanFail(error));
+            })
+    }
+}
+
+
+export const addNewUser = (user) =>{
+    return dispatch => {
+        let apiEndpoint = `users/`;
+        userService.auth_post(apiEndpoint, user)
+            .then((response) => {
+                dispatch(addNewUserSuccess(response.data));
+            })
+            .catch((error) => {
+                console.log("***", error)
+                dispatch(addNewUserFail(error));
             })
     }
 }

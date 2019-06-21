@@ -47,11 +47,12 @@ class Loans extends Component {
             show: false
         });
     }
-    showrepayments = (id, e) => {
+    showrepayments = (id, amount, e) => {
         e.preventDefault();
         this.props.loadLoanRepayment(id);
         this.setState({
-            repayments: true
+            repayments: true,
+            amount
         })
     }
     close = () => {
@@ -93,7 +94,6 @@ class Loans extends Component {
                                     <th>Amount</th>
                                     <th>Date Approved</th>
                                     <th>To repay</th>
-                                    <th>Repayed</th>
                                     <th>Repayment</th>
                                     {admin && <th>Edit</th>}
                                     {admin && <th>Delete</th>}
@@ -108,10 +108,9 @@ class Loans extends Component {
                                         <td>{loan.amount}</td>
                                         <td>{new Date(loan.created_at).toLocaleString().split(',')[0]}</td>
                                         <td>{loan.amount * 1.04}</td>
-                                        <td>{loan.amount / 2}</td>
-                                        <td><Button onClick={this.showrepayments.bind(this, loan.user.id)}>View</Button></td>
-                                        {admin && <td><Button onClick={this.editloan.bind(this, loan.id, loan.amount)}>Edit</Button></td>}
-                                        {admin && <td><Button onClick={this.deleteloan.bind(this, loan.id)}>x</Button></td>}
+                                        <td><Button onClick={this.showrepayments.bind(this, loan.user.id, loan.amount)}>View</Button></td>
+                                        {admin && <td><i onClick={this.editloan.bind(this, loan.id, loan.amount)} className="fa fa-edit"></i><br /></td>}
+                                        {admin && <td><i onClick={this.deleteloan.bind(this, loan.id)} className="fa fa-trash"></i><br /></td>}
                                     </tr>))}
                             </tbody>
                         </Table><br />
@@ -148,7 +147,7 @@ class Loans extends Component {
 
                 {repayments &&
                     <div>
-                        <Button style={{ float: 'right' }} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment} /></div>}
+                        <Button style={{ float: 'right' }} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment} amount={amount}/></div>}
 
                 {loans && completed_loans.length > 0 &&
 
@@ -196,9 +195,9 @@ const mapStateToProps = state => ({
     deleteUserLoan: state.deleteUserLoan
 })
 
-const mapDispatchToProps = dispatch => ({
-    loadLoanRepayment: (id) => dispatch(loadLoanRepayment(id)),
-    updateUserLoan: (id, amount) => dispatch(updateUserLoan(id, amount)),
-    deleteUserLoan: (id) => dispatch(deleteUserLoan(id)),
+const mapDispatchToProps = () => ({
+    loadLoanRepayment,
+    updateUserLoan,
+    deleteUserLoan,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Loans);

@@ -3,7 +3,7 @@ import {
   USER_LOAN_REPAYMENT_SUCCESS, USER_LOAN_REPAYMENT_FAIL, USER_SAVINGS_SUCCESS,
   USER_SAVINGS_FAIL, UPDATE_USER_SAVINGS_SUCCESS, UPDATE_USER_SAVINGS_FAIL, DELETE_USER_SAVINGS_FAIL,
   DELETE_USER_SAVINGS_SUCCESS, UPDATE_USER_LOAN_SUCCESS, UPDATE_USER_LOAN_FAIL, DELETE_USER_LOAN_FAIL,
-  DELETE_USER_LOAN_SUCCESS
+  DELETE_USER_LOAN_SUCCESS, ADD_USER_SUCCESS, ADD_USER_FAIL
 } from '../actions/loans_actions';
 import initialState from './initialState';
 // import { USERS_SUCCESS, USERS_FAIL } from '../actions/user_actions';
@@ -11,7 +11,7 @@ import initialState from './initialState';
 export const users = (state = initialState.users, action) => {
   switch (action.type) {
     case USERS_SUCCESS:
-      return Object.assign({}, state, { data: action.payload });
+      return {...state, data: action.payload}
     case USERS_FAIL:
       return Object.assign({}, state, { error: action.payload });
     default:
@@ -103,6 +103,17 @@ export const deleteUserLoan = (state = initialState.deleteUserLoan, action) => {
     case DELETE_USER_LOAN_SUCCESS:
       return Object.assign({}, state, { data: action.payload });
     case DELETE_USER_LOAN_FAIL:
+      return Object.assign({}, state, { error: action.payload });
+    default:
+      return state;
+  }
+}
+
+export const newUser = (state = initialState.users, action) => {
+  switch (action.type) {
+    case ADD_USER_SUCCESS:
+      return Object.assign({}, state, { data: action.payload });
+    case ADD_USER_FAIL:
       return Object.assign({}, state, { error: action.payload });
     default:
       return state;

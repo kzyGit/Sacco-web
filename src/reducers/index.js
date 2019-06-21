@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { authentication } from './auth_reducer';
-import { userLoan, userLoanRepayment, userSavings, users, addSavings, userSavingsUpdate } from './userLoan'
+import { userLoan, userLoanRepayment, userSavings, users, addSavings, userSavingsUpdate, newUser } from './userLoan'
 // import { users } from './user_reducer'
 
 const rootReducer = combineReducers({
@@ -10,6 +10,7 @@ const rootReducer = combineReducers({
     userSavings,
     users,
     addSavings,
-    userSavingsUpdate
+    userSavingsUpdate,
+    newUser
 });
 export default rootReducer;

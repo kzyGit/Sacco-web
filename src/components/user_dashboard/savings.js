@@ -81,8 +81,8 @@ class Savings extends Component {
                                         <td>{saving.amount}</td>
                                         <td>{new Date(saving.created_at).toLocaleString().split(',')[0]}</td>
                                         <td>{saving.mode}</td>
-                                        {admin && <td><Button onClick={this.editsaving.bind(this, saving.id, saving.amount)}>Edit</Button></td>}
-                                        {admin && <td><Button onClick={this.deletesaving.bind(this, saving.id)}>x</Button></td>}
+                                        {admin && <td><i onClick={this.editsaving.bind(this, saving.id, saving.amount)} className="fa fa-edit"></i></td>}
+                                        {admin && <td> <i onClick={this.deletesaving.bind(this, saving.id)} className="fa fa-trash"></i></td>}
                                     </tr>))}
                             </Fragment>}
 

@@ -46,16 +46,15 @@ class Header extends Component {
                         <Col id="col" sm={6}></Col>
                         <Col id="col" sm={3} >
                             <ButtonGroup id='nav'>
-                                <Button><a href="/">Home</a></Button>
+                                <Button><a href="/"> <i className="fas fa-home"></i> Home</a></Button>
                                 <Button onClick={this.handleClick}>Reach us</Button>
                                 {localStorage.getItem('auth') &&
 
                                     <DropdownButton as={ButtonGroup} title="User">
                                         <Button id='dropnav' ><a href={dashboard} >Dashboard</a></Button>
                                         <Button id='dropnav' onClick={() => { this.logout() }}><a href="/" >Logout</a></Button>
-                                        <Button id='dropnav' className="user" style={{ color: 'maroon' }}>** {localStorage.getItem('user')}</Button>
+                                        <Button id='dropnav' className="user" style={{ color: 'maroon' }}> <i className="fas fa-user"></i> {localStorage.getItem('user')}</Button>
                                     </DropdownButton>}
-
 
                                 {!localStorage.getItem('auth') && <Button><a href="/login">Login</a></Button>}
                             </ButtonGroup>
