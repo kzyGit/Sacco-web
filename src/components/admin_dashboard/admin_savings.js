@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import AddSavings from './add_savings'
 import { connect } from 'react-redux'
 import { loadUserSavings } from '../../actions/loans_actions'
@@ -27,7 +27,7 @@ class Savings extends Component {
 
         return (
             <div style={{ textAlign: 'left' }} id='savings'>
-                <h4> Savings<Button style={{marginLeft:'10%', backgroundColor:'#814d4d', border:'1px solid grey'}}onClick={this.addsavings}>+ Add Savings</Button></h4><br />
+                <h4> Savings<i  id="add" onClick={this.addsavings} class="fa fa-plus-circle"></i></h4><br />
                 {addsavings && <AddSavings />}
                 <b>Total Savings: </b> {savings.data.total_savings} <br /><br />
 

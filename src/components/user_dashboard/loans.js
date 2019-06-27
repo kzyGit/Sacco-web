@@ -147,7 +147,8 @@ class Loans extends Component {
 
                 {repayments &&
                     <div>
-                        <Button style={{ float: 'right' }} onClick={(event) => { this.close() }}>close</Button><Repayments userLoanRepayment={userLoanRepayment} amount={amount}/></div>}
+                        <i class="fa fa-window-close" id="closebtn" onClick={(event) => { this.close() }} aria-hidden="true"></i>
+                        <Repayments userLoanRepayment={userLoanRepayment} amount={amount}/></div>}
 
                 {loans && completed_loans.length > 0 &&
 

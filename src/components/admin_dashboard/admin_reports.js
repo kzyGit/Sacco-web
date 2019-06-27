@@ -71,30 +71,30 @@ class Reports extends Component {
         }
         return (
             <div style={{ textAlign: 'left' }} ><br />
-                    <h5> Loans and Savings Reports</h5>
+                <h5> Loans and Savings Reports</h5>
 
-                    <ButtonGroup id='chart'>
-                        <Button onClick={this.line}>Line</Button>
-                        <Button onClick={this.bar}>Bar</Button>
-                        <Button onClick={this.pie}>Pie</Button>
-                    </ButtonGroup>
+                <ButtonGroup id='chart'>
+                    <Button onClick={this.line}>Line</Button>
+                    <Button onClick={this.bar}>Bar</Button>
+                    <Button onClick={this.pie}>Pie</Button>
+                </ButtonGroup>
 
-                    {view === 'line' && <Line
-                        data={chartData}
-                        options={{
-                            maintainAspectRatio: false
-                        }} />}
-                    {view === 'bar' && <Bar
-                        data={chartData}
-                        options={{
-                            maintainAspectRatio: false
-                        }} />}
-                    {view === 'pie' && <Pie
-                        data={chartData}
-                        options={{
-                            maintainAspectRatio: false
-                        }} />}
-
+                {view === 'line' && <Line
+                    data={chartData}
+                    options={{
+                        maintainAspectRatio: false
+                    }} />}
+                {view === 'bar' && <Bar
+                    data={chartData}
+                    options={{
+                        maintainAspectRatio: false
+                    }} />}
+                {view === 'pie' && <Pie
+                    data={chartData}
+                    options={{
+                        maintainAspectRatio: false
+                    }} />}
+                
             </div>
 
 

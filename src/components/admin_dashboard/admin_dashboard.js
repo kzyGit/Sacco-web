@@ -40,6 +40,11 @@ class AdminDashboard extends Component {
     reports = () => {
         this.setState({ view: 'reports' })
     }
+
+    d3reports = () => {
+        this.setState({ view: 'd3reports' })
+    }
+
     render() {
         const { userLoan, userSavings, users } = this.props
         const { view } = this.state
@@ -54,12 +59,14 @@ class AdminDashboard extends Component {
                         <Button onClick={this.savings}>Savings</Button>
                         <Button onClick={this.loans}>Loans</Button>
                         <Button onClick={this.reports}>Reports</Button>
+                        {/* <Button onClick={this.d3reports}>Reports</Button> */}
                     </ButtonGroup>
 
                     {view === 'users' && <Users users={users} />}
                     {view === 'savings' && <Savings savings={userSavings} />}
                     {view === 'loans' && <Loans userLoan={userLoan} />}
                     {view === 'reports' && <Reports loans={userLoan} savings={userSavings} />}
+                    {/* {view === 'd3reports' && <Myreport loans={userLoan} savings={userSavings} />} */}
                 </div>
                 <Footer />
             </div>

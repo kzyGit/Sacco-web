@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import AddUser from './add_user'
 
@@ -23,7 +23,8 @@ class Users extends Component {
 
         return (
             <div style={{ textAlign: 'left' }} id='savings'>
-                <h4> Members<Button style={{marginLeft:'10%', backgroundColor:'#814d4d', border:'1px solid grey'}}onClick={this.addUser}>+ Add User</Button></h4><br />
+                <h4> Members
+                <i  id="add" onClick={this.addUser} class="fa fa-plus-circle"></i></h4><br />
 
                 {adduser && <AddUser />}
 

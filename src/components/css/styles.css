@@ -60,6 +60,9 @@ body {
     border: grey
 }
 
+.graph {
+    background-color: #eee;
+}
 
 h4 {
     color: maroon
@@ -106,4 +109,15 @@ a {
 #user_link{
     color: #094586 !important;
     text-transform: capitalize;
+}
+
+#closebtn {
+    float: right !important;
+    padding: 2%;
+    cursor: pointer;
+}
+
+#add {
+    margin-left:5%;
+    color:maroon;
 }

@@ -97,6 +97,7 @@ class Loans extends Component {
                         <Button variant="primary" onClick={this.close} style={{width:'20%', float:'left', margin:'0% 0% 2% 75%'}}>
                                 Close
                       </Button>
+
                     </Modal>}
 
                 {loans && completed_loans.length > 0 &&
