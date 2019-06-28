@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Button, Navbar, Image, DropdownButton, ButtonGroup } from 'react-bootstrap';
+import {
+    Container, Row, Col, Button, Navbar, Image, DropdownButton, ButtonGroup, Popover,
+    ButtonToolbar, Overlay
+} from 'react-bootstrap';
 import logo from '../components/Images/logo.jpg'
 
 class Header extends Component {
+    constructor(props, context) {
+        super(props, context);
+
+        this.handleClick = ({ target }) => {
+            this.setState(s => ({ target, show: !s.show }));
+        };
+
+        this.state = {
+            show: false,
+        };
+    }
+
 
     logout = () => {
         localStorage.removeItem('auth');
@@ -11,10 +26,10 @@ class Header extends Component {
         alert('Logout successful')
     }
 
-    
+
     render() {
         let dashboard = '';
-        if(localStorage.getItem('role') === 'admin'){
+        if (localStorage.getItem('role') === 'admin') {
             dashboard = '/admin_dashboard'
         }
         else {
@@ -30,20 +45,38 @@ class Header extends Component {
                             </p></Col>
                         <Col id="col" sm={6}></Col>
                         <Col id="col" sm={3} >
-                        <ButtonGroup id='nav'>
-                            <Button><a href="/">Home</a></Button>
-                            <Button><a href="/">Reach us</a></Button>
-                            {localStorage.getItem('auth') && 
+                            <ButtonGroup id='nav'>
+                                <Button><a href="/"> <i className="fas fa-home"></i> Home</a></Button>
+                                <Button onClick={this.handleClick}>Reach us</Button>
+                                {localStorage.getItem('auth') &&
 
-                            <DropdownButton as={ButtonGroup} title="User">
-                                <Button id='dropnav' ><a href={dashboard} >Dashboard</a></Button>
-                                <Button id='dropnav' onClick={() => { this.logout() }}><a href="/" >Logout</a></Button>
-                                <Button id='dropnav' className="user" style={{color:'maroon'}}>** {localStorage.getItem('user')}</Button>
-                            </DropdownButton>}
+                                    <DropdownButton as={ButtonGroup} title="User">
+                                        <Button id='dropnav' ><a href={dashboard} >Dashboard</a></Button>
+                                        <Button id='dropnav' onClick={() => { this.logout() }}><a href="/" >Logout</a></Button>
+                                        <Button id='dropnav' className="user" style={{ color: 'maroon' }}> <i className="fas fa-user"></i> {localStorage.getItem('user')}</Button>
+                                    </DropdownButton>}
 
-
-                            {!localStorage.getItem('auth') && <Button><a href="/login">Login</a></Button>}
+                                {!localStorage.getItem('auth') && <Button><a href="/login">Login</a></Button>}
                             </ButtonGroup>
+
+
+                            <ButtonToolbar>
+
+                                <Overlay
+                                    show={this.state.show}
+                                    target={this.state.target}
+                                    placement="bottom"
+                                    container={this}
+                                    containerPadding={20}
+                                >
+                                    <Popover id="popover-contained"><br />
+                                        <h6>Our Contact Info</h6><br />
+                                        <strong>Email: </strong> Njokeriosacco@gmail.com<br /><br />
+                                        <strong>Phone Number: </strong> 020 - 229 -786<br />
+                                    </Popover>
+                                </Overlay>
+                            </ButtonToolbar>
+
                         </Col>
                     </Row>
                 </Container>

@@ -6,7 +6,7 @@ import { history } from './helpers';
 import { PrivateRoute } from './components';
 import Home from './components/home/home'
 import Login from './components/login/login'
-import Dashboard from './components/dashboard/dashboard'
+import Dashboard from './components/user_dashboard/dashboard'
 import AdminDashboard from './components/admin_dashboard/admin_dashboard'
 import axios from 'axios'
 

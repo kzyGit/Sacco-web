@@ -5,7 +5,8 @@ export const userService = {
 	get,
 	post,
 	put,
-	deleteDetail
+	deleteDetail,
+	auth_post
 }
 
 function get(apiEndpoint) {
@@ -26,23 +27,34 @@ function post(apiEndpoint, payload){
     })
 }
 
+function auth_post(apiEndpoint, payload){
+    return auth_request().post(baseUrl+apiEndpoint, payload).then((response)=>{
+		console.log("********* res", response)
+        return response;
+    }).catch((err)=>{
+		console.log("********* err", err)
+		// return err
+		
+    })
+}
+
 
 function put(apiEndpoint, payload) {
-	return axios.get(baseUrl + apiEndpoint, payload)
+	return auth_request().put(baseUrl + apiEndpoint, payload)
 		.then((response) => {
 			return response;
 		})
 		.catch((err) => {
-			console.log(err);
+			return err
 		})
 }
 
-function deleteDetail(apiEndpoint) {
-	return axios.get(baseUrl + apiEndpoint)
+function deleteDetail (apiEndpoint) {
+	return auth_request().delete(baseUrl + apiEndpoint)
 		.then((response) => {
 			return response;
 		})
 		.catch((err) => {
-			console.log(err);
+			return err
 		})
 }

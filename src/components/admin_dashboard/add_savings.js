@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Form, Col, Row, Button } from 'react-bootstrap';
-import { userActions } from '../../actions'
+import { addUserSavings } from '../../actions/loans_actions'
+import { connect } from 'react-redux'
 
 class AddSavings extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            id: 1,
-            amount: 1,
+            id: '',
+            amount: '',
         }
     }
 
@@ -17,51 +18,67 @@ class AddSavings extends Component {
             [prop]: event.target.value
         })
     }
-    addsavings = event => {
-        this.setState({ submitted: true })
+    addsavings = (user_id, savings) => {
         const { id, amount } = this.state;
-        const { dispatch } = this.props
-        if(id && amount) {
-            // dispatch(userActions.addsavings(id, amount))
-            console.log("**** Yeeeeeei")
+        const { addUserSavings, addSavings } = this.props
+        if (id && amount) {
+            addUserSavings(user_id, savings);
+            if (!addSavings.data) {
+                alert("Error on adding savings")
+            }
+            else {
+                window.location.reload();
+                alert("Savings added successfully")
+                
+            }
         }
-
     }
     render() {
+        const { id, amount } = this.state;
+        const { users } = this.props
         return (
-            <div style={{ textAlign: 'left' }} id='savings'>
-                <div className="login">
-                    <h2>{'Add Savings'}</h2><br />
+            <div style={{ textAlign: 'left' }} id='add_savings'>
+                <b> Add Savings</b><br /><br />
 
-                    <Form>
-                        <Form.Group as={Row} controlId="formPlaintextEmail">
-                            <Form.Label column sm="4">User ID</Form.Label>
-                            <Col sm="8">
-                                <Form.Control type="text" placeholder="user id"
-                                    onChange={this.handleChange('id')} 
-                                    value={this.state.id}/>
-                                
-                            </Col>
-                        </Form.Group><br />
+                <Form>
+                    <Form.Group as={Row} controlId="formPlaintextEmail">
+                        <Form.Label column sm="4">User</Form.Label>
+                        <Col sm="8">
+                            <Form.Control as="select" placeholder="user id"
+                                onChange={this.handleChange('id')}>
+                                <option></option>
+                                {users.data.map(user => (
+                                    <option key={user.id} value={user.id}>{user.first_name} {user.first_name} {user.first_name}</option>
+                                ))}
+                            </Form.Control>
 
-                        <Form.Group as={Row} controlId="formPlaintextPassword">
-                            <Form.Label column sm="4">Amount</Form.Label>
-                            <Col sm="8">
-                                <Form.Control placeholder="amount"
-                                    value={this.state.amount}
-                                    onChange={this.handleChange('amount')} 
-                                    type='text'
-                                    />
-                            </Col>
-                        </Form.Group>
-                    </Form>
-                    <Button onClick={(event) => { this.addsavings() }}>Submit</Button>
-                </div>
+                        </Col>
+                    </Form.Group>
 
+                <Form.Group as={Row} controlId="formPlaintextPassword">
+                    <Form.Label column sm="4">Amount</Form.Label>
+                    <Col sm="8">
+                        <Form.Control placeholder="amount"
+                            value={this.state.amount}
+                            onChange={this.handleChange('amount')}
+                            type='number'
+                        />
+                    </Col>
+                </Form.Group>
+                </Form>
+            <Button onClick={this.addsavings.bind(this, id, amount)}>Submit</Button>
 
-            </div>
+            </div >
         )
     }
 }
 
-export default AddSavings;
+const mapStateToProps = state => ({
+    addSavings: state.addSavings,
+    users: state.users
+})
+
+const mapDispatchToProps = dispatch => ({
+    addUserSavings: (user_id, savings) => dispatch(addUserSavings(user_id, savings))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(AddSavings);

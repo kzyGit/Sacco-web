@@ -50,6 +50,20 @@ body {
     margin-top: 4%!important;
 }
 
+#chart{
+    margin-top: 4%!important;
+}
+
+#chart button {
+    margin-bottom: 2%!important;
+    background-color: grey;
+    border: grey
+}
+
+.graph {
+    background-color: #eee;
+}
+
 h4 {
     color: maroon
 }
@@ -76,11 +90,9 @@ a {
 #dropnav a {
     color: #007bff;}
 
-#no_loan {
-    margin:5%
-}
 .user {
-    color: maroon
+    color: maroon;
+    background-color: #998181 ;
 }
 
 #repayments {
@@ -88,4 +100,24 @@ a {
     padding: 2%;
     margin-bottom:5%;
     border: 1px solid #ddd
+}
+#add_savings{
+    padding:3%;
+    width: 50%;
+    margin:auto
+}
+#user_link{
+    color: #094586 !important;
+    text-transform: capitalize;
+}
+
+#closebtn {
+    float: right !important;
+    padding: 2%;
+    cursor: pointer;
+}
+
+#add {
+    margin-left:5%;
+    color:maroon;
 }
